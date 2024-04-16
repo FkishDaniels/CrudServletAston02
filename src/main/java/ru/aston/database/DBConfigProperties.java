@@ -9,7 +9,7 @@ public class DBConfigProperties {
     private DBConfigProperties(){}
     static {
         try {
-            properties.load(ConfigProperties.class.getResourceAsStream("database.properties"));
+            properties.load(DBConfigProperties.class.getResourceAsStream("database.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
