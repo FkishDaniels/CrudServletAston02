@@ -1,6 +1,7 @@
 package ru.aston.database;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class DBConfigProperties {
@@ -8,8 +9,8 @@ public class DBConfigProperties {
 
     private DBConfigProperties(){}
     static {
-        try {
-            properties.load(DBConfigProperties.class.getResourceAsStream("database.properties"));
+        try (InputStream inputStream = DBConfigProperties.class.getResourceAsStream("database.properties")){
+            properties.load(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

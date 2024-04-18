@@ -1,5 +1,6 @@
 package ru.aston.repository;
 
+import ru.aston.model.Lesson;
 import ru.aston.model.Student;
 
 import java.util.List;
@@ -9,4 +10,8 @@ public interface StudentRepository {
     void save(Student student);
     void delete(Student student);
     void update(Student student);
+
+    List<Lesson> getLessons(Student student);
+    void addLesson(long studentId, long lessonId);
+    void removeLesson(Student student, Lesson oldLesson);
 }
