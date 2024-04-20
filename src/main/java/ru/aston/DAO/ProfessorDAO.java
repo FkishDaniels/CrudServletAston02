@@ -82,11 +82,11 @@ public class ProfessorDAO implements ProfessorRepository {
 
     @Override
     public void addLesson(long professorId, long lessonId) {
-        String query = "INSERT INTO lesson_professor (lesson_id, prodessor_id) VALUES (?, ?)";
+        String query = "INSERT INTO lesson_professor (lesson_id, professor_id) VALUES (?, ?)";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, professorId);
-            preparedStatement.setLong(2, lessonId);
+            preparedStatement.setLong(1, lessonId);
+            preparedStatement.setLong(2, professorId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
