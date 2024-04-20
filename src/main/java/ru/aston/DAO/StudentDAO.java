@@ -111,8 +111,8 @@ public class StudentDAO implements StudentRepository {
         String query = "INSERT INTO lesson_student (lesson_id, student_id) VALUES (?, ?)";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, studentId);
-            preparedStatement.setLong(2, lessonId);
+            preparedStatement.setLong(1, lessonId);
+            preparedStatement.setLong(2, studentId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

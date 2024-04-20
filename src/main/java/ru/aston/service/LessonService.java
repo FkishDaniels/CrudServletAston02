@@ -1,19 +1,19 @@
 package ru.aston.service;
 
 import ru.aston.DAO.LessonDAO;
+import ru.aston.database.ConnectionManager;
 import ru.aston.dto.LessonDTO;
 import ru.aston.dto.MAPPER.LessonDtoMapper;
-import ru.aston.dto.ProfessorDTO;
 import ru.aston.model.Lesson;
-import ru.aston.model.Professor;
+
 
 public class LessonService {
 
     private final LessonDAO lessonRepository;
     private final LessonDtoMapper lessonDtoMapper;
 
-    public LessonService(LessonDAO lessonRepository, LessonDtoMapper lessonDtoMapper) {
-        this.lessonRepository = lessonRepository;
+    public LessonService(ConnectionManager connectionManager, LessonDtoMapper lessonDtoMapper) {
+        this.lessonRepository = new LessonDAO(connectionManager);
         this.lessonDtoMapper = lessonDtoMapper;
     }
 

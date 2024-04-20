@@ -1,20 +1,21 @@
 package ru.aston.service;
 
 import ru.aston.DAO.ProfessorDAO;
+import ru.aston.database.ConnectionManager;
 import ru.aston.dto.MAPPER.ProfessorDtoMapper;
 import ru.aston.dto.ProfessorDTO;
 import ru.aston.model.Lesson;
 import ru.aston.model.Professor;
-import ru.aston.model.Student;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ProfessorService {
     private final ProfessorDAO professorRepository;
     private final ProfessorDtoMapper professorDtoMapper;
 
-    public ProfessorService(ProfessorDAO professorRepository, ProfessorDtoMapper professorDtoMapper) {
-        this.professorRepository = professorRepository;
+    public ProfessorService(ConnectionManager connectionManager, ProfessorDtoMapper professorDtoMapper) {
+        this.professorRepository = new ProfessorDAO(connectionManager);
         this.professorDtoMapper = professorDtoMapper;
     }
 
@@ -38,12 +39,12 @@ public class ProfessorService {
         professorRepository.update(professor);
     }
 
-    public List<Lesson> getLessons(ProfessorDTO professorDTO){
-        Professor professor = convertToModel(professorDTO);
+    public List<Lesson> getLessons(long professorId){
+        Professor professor = professorRepository.findById(professorId);
         if(professor != null){
             return professorRepository.getLessons(professor);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public void addLesson(long professorId,long lessonId){

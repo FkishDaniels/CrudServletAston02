@@ -11,8 +11,7 @@ public class ProfessorDtoMapper implements Function<Professor, ProfessorDTO> {
         return new ProfessorDTO(
                 professor.getId(),
                 professor.getName(),
-                professor.getAge(),
-                professor.getLessons()
+                professor.getAge()
         );
     }
 }

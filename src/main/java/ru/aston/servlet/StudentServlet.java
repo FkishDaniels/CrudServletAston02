@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 
 @WebServlet("/students")
 public class StudentServlet extends HttpServlet {
+    private static final String HTML = "text/html";
     private final StudentService studentService;
 
     public StudentServlet() {
@@ -25,7 +26,7 @@ public class StudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long studentId = Long.parseLong(req.getParameter("id"));
         StudentDTO student = studentService.findById(studentId);
-        resp.setContentType("text/html");
+        resp.setContentType(HTML);
         PrintWriter out = resp.getWriter();
         if (student != null) {
             out.println("Student Found: " + student.getName());
@@ -53,11 +54,11 @@ public class StudentServlet extends HttpServlet {
             // Вызов сервиса для создания нового студента
             studentService.save(newStudent);
 
-            resp.setContentType("text/html");
+            resp.setContentType(HTML);
             PrintWriter out = resp.getWriter();
             out.println("New student created successfully!");
         }catch (NumberFormatException e){
-            resp.setContentType("text/html");
+            resp.setContentType(HTML);
             PrintWriter out = resp.getWriter();
             out.println(req.getParameter("name"));
             out.println(req.getParameter("age"));
@@ -85,11 +86,11 @@ public class StudentServlet extends HttpServlet {
             // Вызов сервиса для обновления данных студента
             studentService.update(updatedStudent);
 
-            resp.setContentType("text/html");
+            resp.setContentType(HTML);
             PrintWriter out = resp.getWriter();
             out.println("Student updated successfully!");
         } catch (NumberFormatException e) {
-            resp.setContentType("text/html");
+            resp.setContentType(HTML);
             PrintWriter out = resp.getWriter();
             out.println("Error: " + e.getMessage());
         }
@@ -104,11 +105,11 @@ public class StudentServlet extends HttpServlet {
             // Вызов сервиса для удаления студента
             studentService.delete(studentId);
 
-            resp.setContentType("text/html");
+            resp.setContentType(HTML);
             PrintWriter out = resp.getWriter();
             out.println("Student deleted successfully!");
         } catch (NumberFormatException e) {
-            resp.setContentType("text/html");
+            resp.setContentType(HTML);
             PrintWriter out = resp.getWriter();
             out.println("Error: " + e.getMessage());
         }

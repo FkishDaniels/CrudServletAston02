@@ -10,12 +10,12 @@ public class ProfessorDTO {
     private String name;
     private int age;
     //One-To-Many
-    private List<Lesson> lessons;
 
-    public ProfessorDTO(long id, String name, int age, List<Lesson> lessons) {
+    public ProfessorDTO(long id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.lessons = lessons;
+
     }
+    public ProfessorDTO(){}
 }

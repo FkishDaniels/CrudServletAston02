@@ -7,8 +7,8 @@ import ru.aston.dto.MAPPER.StudentDtoMapper;
 import ru.aston.dto.StudentDTO;
 import ru.aston.model.Lesson;
 import ru.aston.model.Student;
-import ru.aston.repository.StudentRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 public class StudentService {
@@ -50,7 +50,7 @@ public class StudentService {
         if (student != null) {
             return studentRepository.getLessons(student);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public void addLesson(long studentId, long lessonId) {
