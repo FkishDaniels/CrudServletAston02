@@ -1,9 +1,10 @@
 package ru.aston.dto;
 
+import lombok.Data;
 import ru.aston.model.Lesson;
 
 import java.util.List;
-
+@Data
 public class ProfessorDTO {
     private long id;
     private String name;

@@ -12,7 +12,7 @@ import ru.aston.repository.StudentRepository;
 import java.util.List;
 
 public class StudentService {
-    private final StudentRepository studentRepository;
+    private final StudentDAO studentRepository;
     private final StudentDtoMapper studentDtoMapper;
 
     public StudentService(ConnectionManager connectionManager, StudentDtoMapper studentDtoMapper) {

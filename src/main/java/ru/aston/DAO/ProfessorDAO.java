@@ -3,13 +3,13 @@ package ru.aston.DAO;
 import ru.aston.database.ConnectionManager;
 import ru.aston.model.Lesson;
 import ru.aston.model.Professor;
-import ru.aston.model.Student;
 import ru.aston.repository.ProfessorRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfessorDAO implements ProfessorRepository {
@@ -81,17 +81,52 @@ public class ProfessorDAO implements ProfessorRepository {
     }
 
     @Override
-    public void addLesson(Professor professor, Lesson lesson) {
-
+    public void addLesson(long professorId, long lessonId) {
+        String query = "INSERT INTO lesson_professor (lesson_id, prodessor_id) VALUES (?, ?)";
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, professorId);
+            preparedStatement.setLong(2, lessonId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Lesson> getLessons(Professor professor) {
-        return null;
+        List<Lesson> lessons = new ArrayList<>();
+        String query = "SELECT l.id, l.name " +
+                "FROM lesson l " +
+                "JOIN lesson_professor ls ON l.id = ls.lesson_id " +
+                "WHERE ls.professor_id = ?";
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, professor.getId());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Lesson lesson = new Lesson();
+                    lesson.setId(resultSet.getLong("id"));
+                    lesson.setName(resultSet.getString("name"));
+                    lessons.add(lesson);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lessons;
     }
 
     @Override
-    public void removeLesson(Professor professor, Lesson oldLesson) {
-
+    public void removeLesson(long professorId, long oldLessonId) {
+        String query = "DELETE FROM lesson_professor where professor_id = ? AND lesson_id = ?";
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1,professorId);
+            preparedStatement.setLong(2,oldLessonId);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

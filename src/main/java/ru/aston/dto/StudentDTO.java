@@ -11,10 +11,12 @@ public class StudentDTO {
     private int age;
     private int course;
 
-    public StudentDTO(long id, String name, int age, int course, List<Lesson> lessons) {
+    public StudentDTO(long id, String name, int age, int course) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.course = course;
+    }
+    public StudentDTO(){
     }
 }

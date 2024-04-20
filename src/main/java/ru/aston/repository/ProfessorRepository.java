@@ -10,7 +10,7 @@ public interface ProfessorRepository {
     void save(Professor professor);
     void delete(Professor professor);
     void update(Professor professor);
-    void addLesson(Professor professor,Lesson lesson);
+    void addLesson(long professorId, long lessonId);
     List<Lesson> getLessons(Professor professor);
-    void removeLesson(Professor professor, Lesson oldLesson);
+    void removeLesson(long professorId, long oldLessonId);
 }

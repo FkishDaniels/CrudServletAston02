@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Student {
     private long id;
     private String name;

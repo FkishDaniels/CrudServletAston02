@@ -12,8 +12,7 @@ public class StudentDtoMapper implements Function<Student, StudentDTO> {
                 student.getId(),
                 student.getName(),
                 student.getAge()
-                ,student.getCourse(),
-                student.getLessons()
+                ,student.getCourse()
         );
     }
 }

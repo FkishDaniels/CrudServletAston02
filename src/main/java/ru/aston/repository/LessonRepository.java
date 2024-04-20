@@ -10,4 +10,8 @@ public interface LessonRepository {
     Lesson findById(long id);
     List<Student>findStudents(long id);
     Professor getProfessor(long id);
+
+    void save(Lesson lesson);
+    void delete(Lesson lesson);
+    void update(Lesson lesson);
 }
