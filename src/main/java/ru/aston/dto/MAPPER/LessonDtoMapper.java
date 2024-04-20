@@ -10,9 +10,7 @@ public class LessonDtoMapper implements Function<Lesson, LessonDTO> {
     public LessonDTO apply(Lesson lesson) {
         return new LessonDTO(
             lesson.getId(),
-            lesson.getName(),
-            lesson.getStudents(),
-            lesson.getProfessor()
+            lesson.getName()
         );
     }
 }

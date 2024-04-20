@@ -13,7 +13,7 @@ import ru.aston.service.StudentService;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/students")
+@WebServlet("/student")
 public class StudentServlet extends HttpServlet {
     private static final String HTML = "text/html";
     private final StudentService studentService;
