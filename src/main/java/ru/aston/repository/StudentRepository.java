@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface StudentRepository {
     Student findById(long id);
-    void save(Student student);
-    void delete(Student student);
-    void update(Student student);
+    boolean save(Student student);
+    boolean delete(Student student);
+    boolean update(Student student);
 
     List<Lesson> getLessons(Student student);
     void addLesson(long studentId, long lessonId);

@@ -42,33 +42,38 @@ public class StudentDAO implements StudentRepository {
     }
 
     @Override
-    public void save(Student student) {
+    public boolean save(Student student) {
         String query = "INSERT INTO student (name, age, course) VALUES (?, ?, ?)";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, student.getName());
             preparedStatement.setInt(2, student.getAge());
             preparedStatement.setInt(3, student.getCourse());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void delete(Student student) {
+    public boolean delete(Student student) {
         String query = "DELETE FROM student WHERE id = ?";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, student.getId());
-            preparedStatement.executeUpdate();
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void update(Student student) {
+    public boolean update(Student student) {
         String query = "UPDATE student SET name = ?, age = ?, course = ? WHERE id = ?";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -76,10 +81,12 @@ public class StudentDAO implements StudentRepository {
             preparedStatement.setInt(2, student.getAge());
             preparedStatement.setInt(3, student.getCourse());
             preparedStatement.setLong(4, student.getId());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
