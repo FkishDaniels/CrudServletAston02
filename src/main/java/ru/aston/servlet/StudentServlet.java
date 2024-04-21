@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.aston.database.ConnectionManager;
 import ru.aston.database.PostgresConnectionManager;
 import ru.aston.dto.MAPPER.StudentDtoMapper;
 import ru.aston.dto.StudentDTO;
@@ -16,22 +17,26 @@ import java.io.PrintWriter;
 @WebServlet("/student")
 public class StudentServlet extends HttpServlet {
     private static final String HTML = "text/html";
-    private final StudentService studentService;
+    private final StudentService service;
 
     public StudentServlet() {
-        this.studentService = new StudentService(new PostgresConnectionManager(), new StudentDtoMapper());
+        this.service = new StudentService(new PostgresConnectionManager(), new StudentDtoMapper());
+    }
+
+    public StudentServlet(StudentService studentService){
+        this.service = studentService;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long studentId = Long.parseLong(req.getParameter("id"));
-        StudentDTO student = studentService.findById(studentId);
-        resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
+        StudentDTO student = service.findById(studentId);
+
+
         if (student != null) {
-            out.println("Student Found: " + student.getName());
+
         } else {
-            out.println("Student Not Found");
+
         }
     }
 
@@ -52,16 +57,11 @@ public class StudentServlet extends HttpServlet {
             newStudent.setCourse(course);
 
             // Вызов сервиса для создания нового студента
-            studentService.save(newStudent);
+            service.save(newStudent);
 
-            resp.setContentType(HTML);
-            PrintWriter out = resp.getWriter();
-            out.println("New student created successfully!");
+
         }catch (NumberFormatException e){
-            resp.setContentType(HTML);
-            PrintWriter out = resp.getWriter();
-            out.println(req.getParameter("name"));
-            out.println(req.getParameter("age"));
+
         }
 
 
@@ -84,15 +84,11 @@ public class StudentServlet extends HttpServlet {
             updatedStudent.setCourse(course);
 
             // Вызов сервиса для обновления данных студента
-            studentService.update(updatedStudent);
+            service.update(updatedStudent);
 
-            resp.setContentType(HTML);
-            PrintWriter out = resp.getWriter();
-            out.println("Student updated successfully!");
+
         } catch (NumberFormatException e) {
-            resp.setContentType(HTML);
-            PrintWriter out = resp.getWriter();
-            out.println("Error: " + e.getMessage());
+
         }
     }
 
@@ -101,19 +97,10 @@ public class StudentServlet extends HttpServlet {
         try {
             // Получение параметра ID из URL
             long studentId = Long.parseLong(req.getParameter("id"));
-
             // Вызов сервиса для удаления студента
-            studentService.delete(studentId);
+            service.delete(studentId);
 
-            resp.setContentType(HTML);
-            PrintWriter out = resp.getWriter();
-            out.println("Student deleted successfully!");
         } catch (NumberFormatException e) {
-            resp.setContentType(HTML);
-            PrintWriter out = resp.getWriter();
-            out.println("Error: " + e.getMessage());
         }
     }
-
-
 }

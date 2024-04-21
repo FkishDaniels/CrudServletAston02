@@ -12,6 +12,6 @@ public interface StudentRepository {
     boolean update(Student student);
 
     List<Lesson> getLessons(Student student);
-    void addLesson(long studentId, long lessonId);
-    void removeLesson(Student student, Lesson oldLesson);
+    boolean addLesson(long studentId, long lessonId);
+    boolean removeLesson(Student student, Lesson oldLesson);
 }

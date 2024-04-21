@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface ProfessorRepository {
     Professor findById(long id);
-    void save(Professor professor);
-    void delete(Professor professor);
-    void update(Professor professor);
-    void addLesson(long professorId, long lessonId);
+    boolean save(Professor professor);
+    boolean delete(Professor professor);
+    boolean update(Professor professor);
+    boolean addLesson(long professorId, long lessonId);
     List<Lesson> getLessons(Professor professor);
-    void removeLesson(long professorId, long oldLessonId);
+    boolean removeLesson(long professorId, long oldLessonId);
 }

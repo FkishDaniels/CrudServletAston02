@@ -94,39 +94,45 @@ public class LessonDAO implements LessonRepository {
     }
 
     @Override
-    public void save(Lesson lesson) {
+    public boolean save(Lesson lesson) {
         String query = "INSERT INTO lesson (name) VALUES (?)";
         try (Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,lesson.getName());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void delete(Lesson lesson) {
+    public boolean delete(Lesson lesson) {
         String query = "DELETE FROM lesson WHERE id = ?";
         try (Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setLong(1,lesson.getId());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void update(Lesson lesson) {
+    public boolean update(Lesson lesson) {
         String query = "UPDATE lesson SET name = ? where id = ?";
         try (Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1, lesson.getName());
             preparedStatement.setLong(2,lesson.getId());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }

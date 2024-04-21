@@ -42,55 +42,63 @@ public class ProfessorDAO implements ProfessorRepository {
 
 
     @Override
-    public void save(Professor professor) {
+    public boolean save(Professor professor) {
         String query = "INSERT INTO professor (name, age) VALUES (?, ?)";
         try (Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,professor.getName());
             preparedStatement.setInt(2,professor.getAge());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         }catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void delete(Professor professor) {
+    public boolean delete(Professor professor) {
         String query = "DELETE FROM professor WHERE id = ?";
         try (Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setLong(1,professor.getId());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void update(Professor professor) {
+    public boolean update(Professor professor) {
         String query = "UPDATE professor SET name = ?, age = ? WHERE id = ?";
         try (Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1, professor.getName());
             preparedStatement.setInt(2,professor.getAge());
             preparedStatement.setLong(3,professor.getId());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void addLesson(long professorId, long lessonId) {
+    public boolean addLesson(long professorId, long lessonId) {
         String query = "INSERT INTO lesson_professor (lesson_id, professor_id) VALUES (?, ?)";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, lessonId);
             preparedStatement.setLong(2, professorId);
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
@@ -118,15 +126,17 @@ public class ProfessorDAO implements ProfessorRepository {
     }
 
     @Override
-    public void removeLesson(long professorId, long oldLessonId) {
+    public boolean removeLesson(long professorId, long oldLessonId) {
         String query = "DELETE FROM lesson_professor where professor_id = ? AND lesson_id = ?";
         try(Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1,professorId);
             preparedStatement.setLong(2,oldLessonId);
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         }catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }

@@ -114,28 +114,33 @@ public class StudentDAO implements StudentRepository {
     }
 
     @Override
-    public void addLesson(long studentId, long lessonId) {
+    public boolean addLesson(long studentId, long lessonId) {
         String query = "INSERT INTO lesson_student (lesson_id, student_id) VALUES (?, ?)";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, lessonId);
             preparedStatement.setLong(2, studentId);
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void removeLesson(Student student, Lesson oldLesson) {
+    public boolean removeLesson(Student student, Lesson oldLesson) {
         String query = "DELETE FROM lesson_student where student_id = ? AND lesson_id = ?";
         try(Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1,student.getId());
             preparedStatement.setLong(2,oldLesson.getId());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
         }catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
+
 }

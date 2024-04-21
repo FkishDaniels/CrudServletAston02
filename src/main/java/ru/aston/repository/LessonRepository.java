@@ -11,7 +11,7 @@ public interface LessonRepository {
     List<Student>findStudents(long id);
     Professor getProfessor(long id);
 
-    void save(Lesson lesson);
-    void delete(Lesson lesson);
-    void update(Lesson lesson);
+    boolean save(Lesson lesson);
+    boolean delete(Lesson lesson);
+    boolean update(Lesson lesson);
 }

@@ -1,20 +1,18 @@
-package ModelAndDTO;
+package DAO;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.postgresql.Driver;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import ru.aston.DAO.LessonDAO;
 import ru.aston.DAO.StudentDAO;
 import ru.aston.database.ConnectionManager;
+import ru.aston.model.Lesson;
 import ru.aston.model.Student;
-import ru.aston.repository.StudentRepository;
 
 import java.sql.*;
 
@@ -55,8 +53,9 @@ public class StudentDAOTest {
 
     }
 
+
     @Test
-    public void testA() throws Exception {
+    public void A() throws Exception {
 
         try (Connection connection = connectionManager.getConnection()
                 ;Statement stmt = connection.createStatement()) {
@@ -67,55 +66,117 @@ public class StudentDAOTest {
             assertTrue(stmt.execute("SELECT 1 FROM lesson_professor"));
         }
     }
+    /**
+     * Saving test
+    */
     @Test
-    public void testB() {
+    public void B() {
         Student student = new Student();
         student.setName("John");
         student.setAge(20);
         student.setCourse(1);
 
         assertTrue(studentRepository.save(student));
-        students();
+        Student studentFalse = new Student();
+        studentFalse.setName(null);
+        assertFalse(studentRepository.save(studentFalse));
         assertNotNull(studentRepository.findById(1));
 
     }
+
+    /**
+     * Update test
+     */
     @Test
-    public void testC() {
+    public void C() {
         Student student = new Student();
         student.setName("Alice");
         student.setAge(25);
         student.setCourse(3);
 
         studentRepository.save(student);
-        students();
+
         student.setName("Alice Smith");
-        student.setId(2);
+
+        student.setId(3);
         assertTrue(studentRepository.update(student));
 
-        Student updatedStudent = studentRepository.findById(2);
+        Student updatedStudent = studentRepository.findById(student.getId());
         assertNotNull(updatedStudent);
         assertEquals("Alice Smith", updatedStudent.getName());
 
     }
 
+    /**
+     * Delete test
+     */
     @Test
-    public void testD() {
+    public void D() {
         Student student = new Student();
         student.setName("Bob");
         student.setAge(30);
         student.setCourse(2);
 
         studentRepository.save(student);
-        names();
-        students();
-        long id = takeSequence();
-        System.out.println(id);
-        Student studFromDb = studentRepository.findById(3);
+
+        Student studFromDb = studentRepository.findById(4);
         assertNotNull(studentRepository.findById(studFromDb.getId()));
         assertTrue(studentRepository.delete(studFromDb));
 
         assertNull(studentRepository.findById(studFromDb.getId()));
+
     }
+
+    /**
+     * Add lesson test
+     */
+    @Test
+    public void E(){
+        LessonDAO lessonDAO = new LessonDAO(connectionManager);
+
+        Student student = new Student();
+        student.setName("Daniil");
+        student.setAge(21);
+        student.setCourse(3);
+        studentRepository.save(student);
+        student.setId(5);
+        Lesson lesson = new Lesson();
+        lesson.setName("Math");
+        lesson.setId(1);
+        lessonDAO.save(lesson);
+        assertTrue(studentRepository.addLesson(student.getId(),lesson.getId()));
+        assertFalse(studentRepository.addLesson(student.getId(),228));
+
+    }
+
+    /**
+     *Remove lesson test
+     */
+    @Test
+    public void F(){
+        LessonDAO lessonDAO = new LessonDAO(connectionManager);
+        Lesson lesson = lessonDAO.findById(1);
+
+        Student student = studentRepository.findById(5);
+        assertTrue(studentRepository.removeLesson(student,lesson));
+        assertFalse(studentRepository.removeLesson(student,lesson));
+    }
+
+    /**
+     *
+     * Lessons return
+     */
+    @Test
+    public void G(){
+        LessonDAO lessonDAO = new LessonDAO(connectionManager);
+        Lesson lesson = lessonDAO.findById(1);
+
+        Student student = studentRepository.findById(5);
+        assertTrue(studentRepository.getLessons(student).isEmpty());
+        studentRepository.addLesson(student.getId(),lesson.getId());
+        assertFalse(studentRepository.getLessons(student).isEmpty());
+    }
+
 
 
 
