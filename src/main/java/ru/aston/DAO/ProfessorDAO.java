@@ -57,11 +57,11 @@ public class ProfessorDAO implements ProfessorRepository {
     }
 
     @Override
-    public boolean delete(Professor professor) {
+    public boolean delete(long id) {
         String query = "DELETE FROM professor WHERE id = ?";
         try (Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)){
-            preparedStatement.setLong(1,professor.getId());
+            preparedStatement.setLong(1,id);
             int rowsUpdated = preparedStatement.executeUpdate();
             return rowsUpdated > 0;
         }catch (SQLException e){

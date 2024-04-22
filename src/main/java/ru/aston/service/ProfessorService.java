@@ -30,9 +30,9 @@ public class ProfessorService {
         Professor professor = convertToModel(professorDTO);
         professorRepository.save(professor);
     }
-    public void delete(ProfessorDTO professorDTO){
-        Professor professor = convertToModel(professorDTO);
-        professorRepository.delete(professor);
+    public void delete(long id){
+
+        professorRepository.delete(id);
     }
     public void update(ProfessorDTO professorDTO){
         Professor professor = convertToModel(professorDTO);

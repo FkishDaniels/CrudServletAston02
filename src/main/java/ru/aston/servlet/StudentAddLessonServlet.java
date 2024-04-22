@@ -17,38 +17,39 @@ import java.util.List;
 @WebServlet("/students/lessons")
 public class StudentAddLessonServlet extends HttpServlet {
     private static final String HTML = "text/html";
-    private final StudentService studentService;
+    private final StudentService service;
 
     public StudentAddLessonServlet() {
-        this.studentService = new StudentService(new PostgresConnectionManager(), new StudentDtoMapper());
+        this.service = new StudentService(new PostgresConnectionManager(), new StudentDtoMapper());
     }
+    public StudentAddLessonServlet(StudentService studentService){
+        this.service = studentService;
+    }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long studentId = Long.parseLong(req.getParameter("id"));
-        List<Lesson> lessons = studentService.getLessons(studentId);
-        resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
+        List<Lesson> lessons = service.getLessons(studentId);
         if (!lessons.isEmpty()) {
             for (Lesson lesson : lessons) {
-                out.println("Lesson: " + lesson.getName());
             }
         } else {
-            out.println("Lessons not founded!");
+
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
+
+
         try {
             long studentId = Long.parseLong(req.getParameter("studId"));
             long lessondId = Long.parseLong(req.getParameter("lessId"));
-            studentService.addLesson(studentId,lessondId);
-            out.println("Lesson had added!");
+            service.addLesson(studentId,lessondId);
+
         }catch (NumberFormatException e){
-            out.println("Error");
+            e.printStackTrace();
         }
 
     }
@@ -56,12 +57,12 @@ public class StudentAddLessonServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
+
         try {
             long studentId = Long.parseLong(req.getParameter("studId"));
             long lessondId = Long.parseLong(req.getParameter("lessId"));
-            studentService.removeLesson(studentId,lessondId);
-            out.println("Lesson removed");
+            service.removeLesson(studentId,lessondId);
+
         }catch (NumberFormatException e){
                 e.printStackTrace();
         }

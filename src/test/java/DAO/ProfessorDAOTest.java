@@ -106,7 +106,7 @@ public class ProfessorDAOTest {
 
         Professor profFromDb = professorRepository.findById(4);
         assertNotNull(professorRepository.findById(profFromDb.getId()));
-        assertTrue(professorRepository.delete(profFromDb));
+        assertTrue(professorRepository.delete(4));
 
         assertNull(professorRepository.findById(profFromDb.getId()));
     }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProfessorRepository {
     Professor findById(long id);
     boolean save(Professor professor);
-    boolean delete(Professor professor);
+    boolean delete(long id);
     boolean update(Professor professor);
     boolean addLesson(long professorId, long lessonId);
     List<Lesson> getLessons(Professor professor);

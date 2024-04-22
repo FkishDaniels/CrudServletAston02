@@ -17,5 +17,11 @@ public class ProfessorDTO {
         this.age = age;
 
     }
+
+    public ProfessorDTO(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
     public ProfessorDTO(){}
 }

@@ -23,6 +23,9 @@ public class ProfessorServlet extends HttpServlet {
     public ProfessorServlet() {
         this.professorService = new ProfessorService(new PostgresConnectionManager(),new ProfessorDtoMapper());
     }
+    public ProfessorServlet (ProfessorService professorService){
+        this.professorService = professorService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,28 +35,18 @@ public class ProfessorServlet extends HttpServlet {
 
         ProfessorDTO professor = professorService.findById(id);
         if(professor !=null){
-            out.println("Professor Found: " + professor.getName());
+
         }else{
-            out.println("Professor not found");
+
         }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
         try{
             Long id = Long.parseLong(req.getParameter("id"));
-            ProfessorDTO professor = professorService.findById(id);
-            if(professor != null){
-                professorService.delete(professor);
-                out.println("Professor successfully deleted");
-            }else{
-                out.println("Professor not found");
-            }
-
+            professorService.delete(id);
         }catch (NumberFormatException e) {
-            out.println("Wrong id");
         }
     }
 
@@ -70,9 +63,9 @@ public class ProfessorServlet extends HttpServlet {
             professorDTO.setAge(age);
 
             professorService.save(professorDTO);
-            out.println("Professor saved!");
+
         }catch (NumberFormatException e){
-            out.println("Error: Professor not saved!" );
+
         }
     }
 
@@ -88,9 +81,9 @@ public class ProfessorServlet extends HttpServlet {
             ProfessorDTO newProfessor = new ProfessorDTO(professorId, name, age);
             professorService.update(newProfessor);
 
-            out.println("Professor updated!");
+
         }catch (NumberFormatException e){
-            out.println("Error: " + e.getMessage());
+
         }
     }
 }
