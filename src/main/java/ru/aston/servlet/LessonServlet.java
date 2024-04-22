@@ -23,64 +23,61 @@ public class LessonServlet extends HttpServlet {
         this.lessonService = new LessonService(new PostgresConnectionManager(),new LessonDtoMapper());
     }
 
+    public LessonServlet(LessonService lessonService) {
+        this.lessonService = lessonService;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
+
         Long id = Long.parseLong(req.getParameter("id"));
         LessonDTO lesson = lessonService.findById(id);
         if(lesson != null){
-            out.println("Lesson: " + lesson.getName());
+
         }else{
-            out.println("No lesson founded");
+
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
+
         String name = req.getParameter("name");
         LessonDTO lesson = new LessonDTO();
 
         lesson.setName(name);
         lessonService.save(lesson);
-        out.println("Lesson: " + lesson.getName()+" saved");
+
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
+
+
         try {
             Long id = Long.parseLong(req.getParameter("id"));
             String name = req.getParameter("name");
 
             LessonDTO lesson = new LessonDTO(id,name);
             lessonService.update(lesson);
-            out.println("Lesson: " + lesson.getName()+"updated!");
+
         }catch (NumberFormatException e){
-            out.println("Error: " + e.getMessage());
+
         }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType(HTML);
-        PrintWriter out = resp.getWriter();
-
         try {
             Long id = Long.parseLong(req.getParameter("id"));
-            LessonDTO lesson = lessonService.findById(id);
 
-            if(lesson!=null){
-                lessonService.delete(lesson);
-                out.println("Lesson: " + lesson.getName()+" deleted!");
-            }else{
-                out.println("Error lesson not found");
-            }
+                lessonService.delete(id);
+
+
         }catch (NumberFormatException e){
-            out.println("Error " + e.getMessage());
+
         }
     }
 

@@ -108,11 +108,11 @@ public class LessonDAO implements LessonRepository {
     }
 
     @Override
-    public boolean delete(Lesson lesson) {
+    public boolean delete(long id) {
         String query = "DELETE FROM lesson WHERE id = ?";
         try (Connection connection = connectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)){
-            preparedStatement.setLong(1,lesson.getId());
+            preparedStatement.setLong(1,id);
             int rowsUpdated = preparedStatement.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {

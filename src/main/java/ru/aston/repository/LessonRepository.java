@@ -12,6 +12,6 @@ public interface LessonRepository {
     Professor getProfessor(long id);
 
     boolean save(Lesson lesson);
-    boolean delete(Lesson lesson);
+    boolean delete(long id);
     boolean update(Lesson lesson);
 }

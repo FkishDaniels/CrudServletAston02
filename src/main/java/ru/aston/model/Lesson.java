@@ -17,4 +17,9 @@ public class Lesson {
     private List<Student> students;
     //Many-To-One
     private Professor professor;
+
+    public Lesson(long l, String math) {
+        this.id = l;
+        this.name = math;
+    }
 }

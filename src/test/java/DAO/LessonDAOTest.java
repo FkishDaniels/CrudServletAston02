@@ -130,6 +130,6 @@ public class LessonDAOTest {
         lesson.setId(2);
         lesson.setName("Test");
         lessonDAO.save(lesson);
-        assertTrue(lessonDAO.delete(lesson));
+        assertTrue(lessonDAO.delete(2));
     }
 }

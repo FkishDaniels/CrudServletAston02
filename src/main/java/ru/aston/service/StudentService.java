@@ -22,9 +22,7 @@ public class StudentService {
 
     public StudentDTO findById(long id) {
         Student student = studentRepository.findById(id);
-        if (student != null) {
-            return studentDtoMapper.apply(student);
-        }
+        if (student != null) return studentDtoMapper.apply(student);
         return null;
     }
 
@@ -67,7 +65,7 @@ public class StudentService {
     }
 
 
-    private Student convertToModel(StudentDTO studentDTO) {
+    public Student convertToModel(StudentDTO studentDTO) {
         Student student = new Student();
         student.setId(studentDTO.getId());
         student.setName(studentDTO.getName());

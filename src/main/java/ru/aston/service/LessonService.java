@@ -28,16 +28,15 @@ public class LessonService {
         lessonRepository.save(lesson);
     }
 
-    public void delete(LessonDTO lessonDTO){
-        Lesson lesson = convertToModel(lessonDTO);
-        lessonRepository.delete(lesson);
+    public void delete(long id){
+        lessonRepository.delete(id);
     }
 
     public void update(LessonDTO lessonDTO){
         Lesson lesson = convertToModel(lessonDTO);
         lessonRepository.update(lesson);
     }
-    private Lesson convertToModel(LessonDTO lessonDTO) {
+    public Lesson convertToModel(LessonDTO lessonDTO) {
         Lesson lesson = new Lesson();
         lesson.setId(lessonDTO.getId());
         lesson.setName(lessonDTO.getName());
